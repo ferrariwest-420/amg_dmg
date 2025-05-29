@@ -1,0 +1,33 @@
+.home-page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  background-color: #fff;
+}
+
+.home-page__logo {
+  position: absolute;
+  width: 432px;
+  height: 124px;
+  left: 151px;
+  top: 175px;
+  image-rendering: pixelated;
+  object-fit: contain;
+  user-select: none;
+}
+
+.home-page__logo--faded {
+  opacity: 0.2;
+}
+
+.home-page__icons {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.home-page__icons .folder-icon {
+  position: absolute;
+} 

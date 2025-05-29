@@ -1,0 +1,84 @@
+.header {
+  width: 720px;
+  height: 40px;
+  background-color: #fff;
+  border: none;
+  border-bottom: 2px solid #000;
+  position: absolute;
+  top: 0;
+  left: 0;
+  box-sizing: border-box;
+  z-index: 10;
+}
+
+.header__content {
+  height: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header__logo-link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  margin: 4px 6px 4px 9px;
+}
+
+.header__logo {
+  width: 32px;
+  height: 32px;
+}
+
+.header__nav {
+  display: flex;
+  gap: 2px;
+  margin-left: 6px;
+}
+
+.header__button {
+  height: 28px;
+  padding: 6px 4px;
+  background: transparent;
+  border: none;
+  color: #000;
+  text-decoration: none;
+  font-family: 'TDAText', monospace;
+  font-size: 15px;
+  line-height: 16px;
+  display: flex;
+  align-items: center;
+  min-width: 53px;
+  justify-content: center;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  border-radius: 0;
+  outline: none;
+}
+
+.header__button:hover {
+  background-color: #000;
+  color: #fff;
+}
+
+.header__button:focus {
+  outline: none;
+}
+
+.header__button:active {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+}
+
+.header__dropdown-container {
+  position: relative;
+}
+
+.header__button--active {
+  background-color: white;
+  color: black;
+}
+
+.header__button--active:hover {
+  background-color: #000;
+  color: #fff;
+} 

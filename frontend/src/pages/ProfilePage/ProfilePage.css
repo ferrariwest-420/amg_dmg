@@ -1,0 +1,127 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  min-height: 100vh;
+  background-color: #000;
+  padding: 2rem 1rem;
+}
+
+.profile__window {
+  background-color: #000;
+  border: 1px solid #333;
+  width: 100%;
+  max-width: 600px;
+}
+
+.profile__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem;
+  border-bottom: 1px solid #333;
+}
+
+.profile__title {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0;
+  text-transform: uppercase;
+}
+
+.profile__close {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0;
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.profile__content {
+  padding: 2rem 1rem;
+}
+
+.profile__info {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 2rem;
+}
+
+.profile__info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.profile__label {
+  font-family: monospace;
+  font-size: 0.9rem;
+  color: #666;
+  text-transform: uppercase;
+}
+
+.profile__value {
+  font-family: monospace;
+  font-size: 1rem;
+  color: #fff;
+  margin: 0;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid #333;
+}
+
+.profile__actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 2rem;
+}
+
+.profile__action-btn {
+  background: none;
+  border: 1px solid #333;
+  color: #fff;
+  padding: 0.75rem;
+  font-family: monospace;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-transform: uppercase;
+  font-size: 0.9rem;
+}
+
+.profile__action-btn:hover {
+  border-color: #fff;
+}
+
+.profile__action-btn--logout {
+  border-color: #ff0000;
+  color: #ff0000;
+}
+
+.profile__action-btn--logout:hover {
+  background-color: #ff0000;
+  color: #fff;
+}
+
+/* Медиа-запросы для адаптивности */
+@media (max-width: 480px) {
+  .profile {
+    padding: 0;
+  }
+
+  .profile__window {
+    border: none;
+    min-height: 100vh;
+  }
+  
+  .profile__content {
+    padding: 1.5rem 1rem;
+  }
+} 

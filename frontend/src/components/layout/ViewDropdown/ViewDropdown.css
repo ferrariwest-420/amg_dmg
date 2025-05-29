@@ -1,0 +1,86 @@
+.view-dropdown {
+  position: absolute;
+  top: 36px;
+  left: 0;
+  width: 142px;
+  height: 86px;
+  background-color: white;
+  border: 2px solid black;
+  z-index: 1000;
+}
+
+.view-dropdown__button {
+  position: absolute;
+  left: 5px;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  line-height: 16px;
+  color: black;
+  padding: 0;
+}
+
+.view-dropdown__button:first-child {
+  top: 2px;
+  width: 98px;
+  height: 44px;
+}
+
+.view-dropdown__button:last-child {
+  top: 52px;
+  width: 53px;
+  height: 28px;
+}
+
+.view-dropdown__button:hover {
+  background-color: #000;
+  color: #fff;
+  border-radius: 0;
+}
+
+.view-dropdown__button:active {
+  outline: 2px solid #000;
+  outline-offset: -2px;
+  border-radius: 0;
+}
+
+.view-dropdown__center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.view-dropdown__button:first-child .view-dropdown__center-container {
+  width: 90px;
+  height: 32px;
+}
+
+.view-dropdown__button:last-child .view-dropdown__center-container {
+  width: 45px;
+  height: 16px;
+}
+
+.view-dropdown__text-container {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  text-align: left;
+}
+
+.view-dropdown__divider {
+  position: absolute;
+  top: 48px;
+  width: 142px;
+  height: 2px;
+  background-image: linear-gradient(to right, black 50%, transparent 50%);
+  background-size: 4px 100%;
+  background-repeat: repeat-x;
+  left: -2px;
+} 

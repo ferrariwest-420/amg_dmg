@@ -1,0 +1,41 @@
+.folder-icon {
+  width: 64px;
+  height: 87px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  position: relative;
+}
+
+.folder-icon__image {
+  width: 64px;
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folder-icon__image img {
+  width: 64px;
+  height: 64px;
+  object-fit: contain;
+}
+
+.folder-icon__label {
+  width: 64px;
+  height: 18px;
+  background-color: #000;
+  margin-top: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.folder-icon__label span {
+  font-family: 'TDAText Condensed', monospace;
+  font-size: 15px;
+  color: #fff;
+  line-height: 16px;
+  text-align: center;
+} 

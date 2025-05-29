@@ -1,0 +1,95 @@
+.window-tab {
+  width: 704px;
+  height: 456px;
+  background-color: #E2E2E2;
+  border: 2px solid #000;
+  margin: 6px auto 8px;
+  position: relative;
+  overflow: hidden;
+}
+
+.window-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image: url('../../../assets/images/pattern.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.window-tab__header {
+  padding: 4px 6px 0;
+  position: relative;
+  z-index: 2;
+}
+
+.window-tab__title-bar {
+  height: 32px;
+  position: relative;
+  display: flex;
+  gap: 6px;
+}
+
+.window-tab__black-bg {
+  width: 654px;
+  height: 32px;
+  background-color: #000;
+}
+
+.window-tab__title-container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  background-color: #fff;
+  height: 18px;
+  padding: 0 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+}
+
+.window-tab__title {
+  font-family: 'TDAText', monospace;
+  font-size: 15px;
+  color: #000;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.window-tab__close-btn {
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+}
+
+.window-tab__close-btn:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.window-tab__close-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+}
+
+.window-tab__content {
+  padding: 6px;
+  height: calc(100% - 36px);
+  position: relative;
+  z-index: 2;
+} 
