@@ -1,0 +1,153 @@
+.order-page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+.order-page__loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.order-page__loading-image {
+  width: 70px;
+  height: 64px;
+  margin-top: 138px;
+  image-rendering: pixelated;
+}
+
+.order-page__loading-text {
+  margin-top: 10px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.order-page__error {
+  margin-top: 138px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #ff0000;
+  text-align: center;
+}
+
+.order-page__content {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 8px;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  max-height: 418px;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  padding: 30px;
+}
+
+.order-page__content::-webkit-scrollbar {
+  display: none;
+}
+
+.order-page__header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+  background: #000;
+  border: 1px solid #000;
+  margin-bottom: 20px;
+}
+
+.order-page__info-group {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-page__info-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 14px;
+}
+
+.order-page__info-label {
+  min-width: 120px;
+  color: #fff;
+}
+
+.order-page__info-value {
+  color: #fff;
+}
+
+.order-page__status {
+  text-transform: capitalize;
+  color: #4CAF50;
+}
+
+.order-page__total {
+  color: #fff;
+}
+
+.order-page__items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.order-page__items-header {
+  display: grid;
+  grid-template-columns: 100px 2fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  background: #000;
+  border: 1px solid #000;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.order-page__items-header-cell {
+  text-align: center;
+  color: #fff;
+}
+
+.order-page__item {
+  display: grid;
+  grid-template-columns: 100px 2fr 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  padding: 10px;
+  background: #fff;
+  border: 2px solid #000;
+  align-items: center;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 14px;
+}
+
+.order-page__item-cell {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #000;
+}
+
+.order-page__item-image {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  image-rendering: pixelated;
+} 

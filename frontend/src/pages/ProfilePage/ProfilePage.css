@@ -124,4 +124,15 @@
   .profile__content {
     padding: 1.5rem 1rem;
   }
+}
+
+.profile-page {
+  padding: 30px;
+  height: 100%;
+}
+
+.profile-page__folders {
+  display: flex;
+  align-items: flex-start;
+  gap: 50px;
 } 

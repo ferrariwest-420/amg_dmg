@@ -1,0 +1,58 @@
+.scrollbar {
+  width: 16px;
+  height: 394px;
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  background: transparent;
+  display: flex;
+  flex-direction: column;
+}
+
+.scrollbar__button {
+  width: 16px;
+  height: 16px;
+  background-color: #000;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.scrollbar__button img {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.scrollbar__track {
+  width: 16px;
+  height: 362px;
+  background-color: #e2e2e2;
+  position: relative;
+}
+
+.scrollbar__thumb {
+  width: 16px;
+  height: 24px;
+  position: absolute;
+  left: 0;
+  background: transparent;
+  cursor: pointer;
+  user-select: none;
+}
+
+.scrollbar__thumb img {
+  width: 16px;
+  height: 24px;
+  pointer-events: none;
+}
+
+/* Убираем стандартные стили для кнопок */
+.scrollbar__button:focus {
+  outline: none;
+} 

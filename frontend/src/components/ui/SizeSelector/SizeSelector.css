@@ -1,0 +1,63 @@
+.size-selector {
+  width: 126px;
+  height: 29px;
+  display: flex;
+  justify-content: space-between;
+  background: transparent;
+}
+
+.size-selector__label-container {
+  width: 40px;
+  height: 29px;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.size-selector__label {
+  font-family: 'TDAText', monospace;
+  font-size: 13px;
+  line-height: 13px;
+  color: #000;
+  text-align: center;
+}
+
+.size-selector__buttons {
+  width: 81px;
+  height: 29px;
+  display: flex;
+  gap: 3px;
+  background: transparent;
+}
+
+.size-selector__button {
+  width: 16px;
+  height: 29px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-family: 'TDAText', monospace;
+  font-size: 13px;
+  line-height: 13px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  border-radius: 0;
+}
+
+.size-selector__button:focus {
+  outline: none;
+}
+
+.size-selector__button--xl {
+  width: 24px;
+}
+
+.size-selector__button--selected {
+  background-color: #000;
+  color: #fff;
+} 

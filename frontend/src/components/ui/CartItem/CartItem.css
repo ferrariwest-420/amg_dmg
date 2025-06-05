@@ -1,0 +1,238 @@
+.cart-item {
+  width: 650px;
+  height: 64px;
+  background-color: #fff;
+  border: 2px solid #000;
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.cart-item__image-container {
+  width: 64px;
+  height: 64px;
+  margin-left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item__image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.cart-item__name-container {
+  width: 193px;
+  height: 18px;
+  background-color: #000;
+  margin-left: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.cart-item__name-container.cart-item__name-container--socks {
+  height: 32px !important;
+}
+
+.cart-item__name {
+  font-family: 'TDAText Condensed', monospace;
+  font-size: 15px;
+  line-height: 16px;
+  color: #fff;
+  text-align: center;
+}
+
+.cart-item__quantity-spinner {
+  width: 39px;
+  height: 26px;
+  position: absolute;
+  left: 322px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+}
+
+.cart-item__quantity-input {
+  width: 23px;
+  height: 26px;
+  position: absolute;
+  left: 0;
+  background-color: #fff;
+  border: 2px solid #000;
+  z-index: 1;
+}
+
+.cart-item__quantity-field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  padding: 0;
+}
+
+.cart-item__quantity-buttons {
+  width: 18px;
+  height: 26px;
+  position: absolute;
+  left: 21px;
+  background-color: #e2e2e2;
+  border: 2px solid #000;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+.cart-item__quantity-button {
+  width: 14px;
+  height: 11px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cart-item__quantity-button--up {
+  margin-top: 0;
+}
+
+.cart-item__quantity-button--down {
+  margin-top: 2px;
+}
+
+.cart-item__quantity-button img {
+  width: 14px;
+  height: 11px;
+  pointer-events: none;
+}
+
+.cart-item__price {
+  width: 28px;
+  height: 14px;
+  position: absolute;
+  right: 215px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  background: transparent;
+}
+
+.cart-item__size-spinner {
+  width: 39px;
+  height: 26px;
+  position: absolute;
+  right: 131px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: transparent;
+}
+
+.cart-item__size-input {
+  width: 23px;
+  height: 26px;
+  position: absolute;
+  left: 0;
+  background-color: #fff;
+  border: 2px solid #000;
+  z-index: 1;
+}
+
+.cart-item__size-field {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: transparent;
+  text-align: center;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  padding: 0;
+}
+
+.cart-item__size-buttons {
+  width: 18px;
+  height: 26px;
+  position: absolute;
+  left: 21px;
+  background-color: #e2e2e2;
+  border: 2px solid #000;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  padding-top: 0;
+}
+
+.cart-item__size-button {
+  width: 14px;
+  height: 11px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cart-item__size-button--up {
+  margin-top: 0;
+}
+
+.cart-item__size-button--down {
+  margin-top: 2px;
+}
+
+.cart-item__size-button img {
+  width: 14px;
+  height: 11px;
+  pointer-events: none;
+}
+
+.cart-item__close-button {
+  width: 32px;
+  height: 32px;
+  position: absolute;
+  right: 18px;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #000;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.cart-item__close-icon {
+  width: 32px;
+  height: 32px;
+  image-rendering: pixelated;
+  pointer-events: none;
+}
+
+/* Убираем стандартные стили для input */
+.cart-item input:focus {
+  outline: none;
+}
+
+.cart-item button:focus {
+  outline: none;
+} 

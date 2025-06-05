@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import OSWindow from '../../components/layout/OSWindow/OSWindow';
 import WindowTab from '../../components/layout/WindowTab/WindowTab';
@@ -8,17 +8,26 @@ import './LoginPage.css';
 
 const LoginPage = () => {
   const navigate = useNavigate();
-  const { login } = useAuth();
-  const [isLoading, setIsLoading] = useState(true);
+  const location = useLocation();
+  const { login, isAuthenticated, loading } = useAuth();
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [formData, setFormData] = useState({
-    username: '',
+    email: '',
     password: ''
   });
   const [error, setError] = useState('');
 
+  // Redirect if already authenticated
+  useEffect(() => {
+    if (!loading && isAuthenticated) {
+      const from = location.state?.from?.pathname || '/';
+      navigate(from, { replace: true });
+    }
+  }, [loading, isAuthenticated, navigate, location]);
+
   useEffect(() => {
     const timer = setTimeout(() => {
-      setIsLoading(false);
+      setIsPageLoading(false);
     }, 1500);
 
     return () => clearTimeout(timer);
@@ -36,18 +45,35 @@ const LoginPage = () => {
     e.preventDefault();
     setError('');
     
-    const result = await login(formData.username, formData.password);
+    const result = await login(formData.email, formData.password);
     if (result.success) {
-      navigate('/');
+      const from = location.state?.from?.pathname || '/';
+      navigate(from);
     } else {
       setError(result.error || 'Failed to login');
     }
   };
 
+  // Show loading while checking authentication
+  if (loading) {
+    return (
+      <div style={{
+        width: '100%',
+        height: '100vh',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        background: '#fff'
+      }}>
+        <img src={loading1} alt="Loading..." style={{ width: '70px', height: '64px', imageRendering: 'pixelated' }} />
+      </div>
+    );
+  }
+
   return (
     <OSWindow>
       <WindowTab title="Login">
-        {isLoading ? (
+        {isPageLoading ? (
           <div className="login-loading">
             <img src={loading1} alt="Loading..." />
           </div>
@@ -60,12 +86,12 @@ const LoginPage = () => {
             )}
             
             <div className="login-form__field">
-              <label htmlFor="username">Username</label>
+              <label htmlFor="email">E-mail</label>
               <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
                 onChange={handleChange}
                 required
               />

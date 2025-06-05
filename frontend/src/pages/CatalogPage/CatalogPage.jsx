@@ -1,53 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import OSWindow from '../../components/layout/OSWindow/OSWindow';
+import WindowTab from '../../components/layout/WindowTab/WindowTab';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
 import './CatalogPage.css';
 
-// Временные данные для тестирования
-const mockProducts = [
-  {
-    id: 1,
-    name: '"Doll Life" Black Boxers (v.1)',
-    description: '1+ Supima® cotton / 5 % Elastane blend for next-to-skin comfort\n1+ Branded elastic waistband with soft-touch silicone "Doll Life" script',
-    image: '/products/black-boxers.png',
-    price: '29$',
-    sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: 2,
-    name: '"Doll Life" White Boxers (v.1)',
-    description: '1+ Supima® cotton / 5 % Elastane blend for next-to-skin comfort\n1+ Branded elastic waistband with soft-touch silicone "Doll Life" script',
-    image: '/products/white-boxers.png',
-    price: '29$',
-    sizes: ['S', 'M', 'L', 'XL']
-  },
-  {
-    id: 3,
-    name: '"God Made Me Your Toy" Tee',
-    description: '1+ Crew-neck tee, 100 % organic cotton\n1+ Soft-touch silicone printed phrase\n1+ Central 3D-embossed torso patch in tactile nylon',
-    image: '/products/toy-tee.png',
-    price: '79$',
-    sizes: ['S', 'M', 'L', 'XL']
-  }
-];
-
 const CatalogPage = () => {
-  const [products] = useState(mockProducts);
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      try {
+        const response = await fetch('http://localhost:3001/api/products');
+        if (!response.ok) throw new Error('Failed to fetch products');
+        const data = await response.json();
+        const sortedProducts = data.sort((a, b) => a.id - b.id);
+        setProducts(sortedProducts);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
-    <div className="catalog">
-      <div className="catalog__header">
-        <h1 className="catalog__title">Catalog</h1>
-      </div>
-      
-      <div className="catalog__grid">
-        {products.map(product => (
-          <div key={product.id} className="catalog__grid-item">
-            <ProductCard product={product} />
-          </div>
-        ))}
-      </div>
-    </div>
+    <OSWindow>
+      <WindowTab title="Catalog">
+        <div className="catalog-page">
+          {loading && (
+            <div className="catalog-page__loading">Loading...</div>
+          )}
+          
+          {error && (
+            <div className="catalog-page__error">{error}</div>
+          )}
+          
+          {!loading && !error && (
+            <div className="catalog-page__grid">
+              {products.map(product => (
+                <ProductCard 
+                  key={product.id} 
+                  product={product}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+      </WindowTab>
+    </OSWindow>
   );
 };
 
-export default CatalogPage; 
+export default CatalogPage;

@@ -1,41 +1,74 @@
-import React, { createContext, useContext, useState } from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import { authApi } from '../api/auth';
 
 const AuthContext = createContext(null);
 
 export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  const login = async (username, password) => {
-    setLoading(true);
+  // Check authentication status on mount
+  useEffect(() => {
+    const checkAuth = async () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        const response = await authApi.getProfile();
+        setUser(response.user);
+        setIsAuthenticated(true);
+      } catch (error) {
+        console.error('Failed to get user profile:', error);
+        localStorage.removeItem('token');
+        setUser(null);
+        setIsAuthenticated(false);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    checkAuth();
+  }, []);
+
+  const login = async (email, password) => {
     try {
-      // TODO: Implement actual login API call
-      const mockUser = { username, id: 1 };
-      setUser(mockUser);
+      const response = await authApi.login(email, password);
+      setUser(response.user);
+      setIsAuthenticated(true);
+      localStorage.setItem('token', response.token);
       return { success: true };
     } catch (error) {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem('token');
       return { success: false, error: error.message };
-    } finally {
-      setLoading(false);
     }
   };
 
   const register = async (userData) => {
-    setLoading(true);
     try {
-      // TODO: Implement actual registration API call
-      const mockUser = { ...userData, id: 1 };
-      setUser(mockUser);
+      const response = await authApi.register(userData);
+      setUser(response.user);
+      setIsAuthenticated(true);
+      localStorage.setItem('token', response.token);
       return { success: true };
     } catch (error) {
+      setUser(null);
+      setIsAuthenticated(false);
+      localStorage.removeItem('token');
       return { success: false, error: error.message };
-    } finally {
-      setLoading(false);
     }
   };
 
   const logout = () => {
     setUser(null);
+    setIsAuthenticated(false);
+    localStorage.removeItem('token');
   };
 
   const value = {
@@ -44,7 +77,11 @@ export const AuthProvider = ({ children }) => {
     login,
     register,
     logout,
-    isAuthenticated: !!user
+    isAuthenticated,
+    token: localStorage.getItem('token'),
+    updateProfile: (updatedUser) => {
+      setUser(updatedUser);
+    }
   };
 
   return (

@@ -6,6 +6,7 @@
   margin: 6px auto 8px;
   position: relative;
   overflow: hidden;
+  z-index: 5;
 }
 
 .window-tab::before {
@@ -16,7 +17,7 @@
   right: 0;
   bottom: 0;
   background-image: url('../../../assets/images/pattern.svg');
-  background-repeat: no-repeat;
+  background-repeat: repeat;
   background-position: center;
   pointer-events: none;
   z-index: 1;
@@ -25,7 +26,7 @@
 .window-tab__header {
   padding: 4px 6px 0;
   position: relative;
-  z-index: 2;
+  z-index: 5;
 }
 
 .window-tab__title-bar {

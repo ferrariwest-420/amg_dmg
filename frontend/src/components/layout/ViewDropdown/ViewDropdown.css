@@ -6,7 +6,7 @@
   height: 86px;
   background-color: white;
   border: 2px solid black;
-  z-index: 1000;
+  z-index: 1500;
 }
 
 .view-dropdown__button {

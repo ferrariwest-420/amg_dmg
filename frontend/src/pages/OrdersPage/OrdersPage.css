@@ -1,0 +1,65 @@
+.orders-page {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-left: 0;
+  overflow: hidden;
+}
+
+.orders-page__empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.orders-page__empty-image {
+  width: 70px;
+  height: 64px;
+  margin-top: 138px;
+  image-rendering: pixelated;
+}
+
+.orders-page__empty-text {
+  margin-top: 10px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+}
+
+.orders-page__error {
+  margin-top: 138px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #ff0000;
+  text-align: center;
+}
+
+.orders-page__content {
+  width: 100%;
+  height: 100%;
+  padding: 30px;
+  overflow-y: auto;
+}
+
+.orders-page__grid {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 50px;
+  justify-items: center;
+  max-width: 100%;
+  margin: 0 auto;
+}
+
+/* Ensure each folder icon has proper spacing */
+.orders-page__grid .folder-icon {
+  margin: 0;
+  width: auto;
+} 

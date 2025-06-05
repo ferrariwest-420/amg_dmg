@@ -1,0 +1,162 @@
+.checkout-page {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #E2E2E2;
+  position: relative;
+}
+
+.checkout-form {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.checkout-form__field {
+  width: 164px;
+  height: 43px;
+  position: relative;
+  margin-bottom: 13px;
+}
+
+.checkout-form__field label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  font-family: 'TDAText Condensed', monospace;
+  font-size: 15px;
+  color: #000;
+  line-height: 16px;
+}
+
+.checkout-form__field input {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 164px;
+  height: 28px;
+  border: 2px solid #000;
+  background: #fff;
+  padding: 0 4px;
+  font-family: 'TDAText', monospace;
+  font-size: 15px;
+  color: #000;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.checkout-form__field input:read-only {
+  background-color: #fff;
+  cursor: default;
+}
+
+.checkout-form__total-container {
+  width: 164px;
+  height: 34px;
+  background: #fff;
+  border: 2px solid #000;
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  margin-bottom: 13px;
+}
+
+.checkout-form__total-label-container {
+  width: 90px;
+  height: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+}
+
+.checkout-form__total-label {
+  font-family: 'TDAText Condensed', monospace;
+  font-size: 15px;
+  color: #000;
+  text-align: center;
+}
+
+.checkout-form__total-value-container {
+  width: 45px;
+  height: 20px;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: 10px;
+}
+
+.checkout-form__total-value {
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #fff;
+  text-align: center;
+}
+
+.checkout-form__submit {
+  width: 164px;
+  height: 34px;
+  background: #000;
+  border: none;
+  border-radius: 0;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+.checkout-form__submit:focus {
+  outline: none;
+}
+
+.checkout-form__submit:active {
+  background: #000;
+}
+
+.checkout-form__select {
+  cursor: pointer;
+  appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="black" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  padding-right: 32px;
+}
+
+.checkout-form__total {
+  margin-top: 8px;
+  padding: 16px;
+  background-color: #000;
+  color: #fff;
+  font-family: 'TDAText', monospace;
+  font-size: 18px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.checkout-form__total-label {
+  font-weight: bold;
+}
+
+.checkout-form__total-amount {
+  font-size: 20px;
+}
+
+.checkout-form__submit:disabled {
+  background-color: #999;
+  cursor: not-allowed;
+} 

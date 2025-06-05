@@ -1,76 +1,35 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../context/AuthContext';
+import OSWindow from '../../components/layout/OSWindow/OSWindow';
+import WindowTab from '../../components/layout/WindowTab/WindowTab';
+import FolderIcon from '../../components/ui/FolderIcon/FolderIcon';
+import documentIcon from '../../assets/icons/document.svg';
+import catalogIcon from '../../assets/icons/catalog.svg';
 import './ProfilePage.css';
 
 const ProfilePage = () => {
-  const navigate = useNavigate();
-  const { user, logout } = useAuth();
-
-  const handleLogout = () => {
-    logout();
-    navigate('/login');
-  };
+  const folders = [
+    { name: 'Info', to: '/profile/info', icon: documentIcon },
+    { name: 'Orders', to: '/profile/orders', icon: catalogIcon }
+  ];
 
   return (
-    <div className="profile">
-      <div className="profile__window">
-        <div className="profile__header">
-          <h2 className="profile__title">Profile</h2>
-          <button 
-            className="profile__close"
-            onClick={() => navigate('/')}
-          >×</button>
-        </div>
-
-        <div className="profile__content">
-          <div className="profile__info">
-            <div className="profile__info-group">
-              <label className="profile__label">Username</label>
-              <p className="profile__value">{user?.username}</p>
-            </div>
-
-            <div className="profile__info-group">
-              <label className="profile__label">Email</label>
-              <p className="profile__value">{user?.email}</p>
-            </div>
-
-            <div className="profile__info-group">
-              <label className="profile__label">Country</label>
-              <p className="profile__value">{user?.country}</p>
-            </div>
-
-            <div className="profile__info-group">
-              <label className="profile__label">Full Address</label>
-              <p className="profile__value">{user?.fullAddress}</p>
-            </div>
-          </div>
-
-          <div className="profile__actions">
-            <button 
-              className="profile__action-btn profile__action-btn--orders"
-              onClick={() => navigate('/orders')}
-            >
-              Orders History
-            </button>
-            
-            <button 
-              className="profile__action-btn profile__action-btn--edit"
-              onClick={() => navigate('/profile/edit')}
-            >
-              Edit Profile
-            </button>
-            
-            <button 
-              className="profile__action-btn profile__action-btn--logout"
-              onClick={handleLogout}
-            >
-              Log Out
-            </button>
+    <OSWindow>
+      <WindowTab title="Profile">
+        <div className="profile-page">
+          <div className="profile-page__folders">
+            {folders.map((folder, index) => (
+              <FolderIcon
+                key={folder.name}
+                icon={<img src={folder.icon} alt={folder.name} />}
+                label={folder.name}
+                to={folder.to}
+                style={{ marginLeft: index > 0 ? '0px' : '0' }}
+              />
+            ))}
           </div>
         </div>
-      </div>
-    </div>
+      </WindowTab>
+    </OSWindow>
   );
 };
 

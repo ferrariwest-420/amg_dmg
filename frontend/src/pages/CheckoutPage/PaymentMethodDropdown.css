@@ -1,0 +1,112 @@
+.payment-method-dropdown {
+  width: 164px;
+  height: 43px;
+  position: relative;
+  margin-bottom: 13px;
+}
+
+.payment-method-dropdown__label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 16px;
+  font-family: 'TDAText Condensed', monospace;
+  font-size: 15px;
+  color: #000;
+  line-height: 16px;
+}
+
+.payment-method-dropdown__field {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 164px;
+  height: 28px;
+  border: 2px solid #000;
+  background: #fff;
+  padding: 0 4px;
+  font-family: 'TDAText', monospace;
+  font-size: 15px;
+  color: #000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.payment-method-dropdown__selected {
+  padding-left: 6px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+}
+
+.payment-method-dropdown__toggle {
+  position: absolute;
+  right: 6px;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: none;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 2;
+  outline: none;
+}
+
+.payment-method-dropdown__toggle:focus {
+  outline: none;
+}
+
+.payment-method-dropdown__toggle img {
+  width: 10px;
+  height: 6px;
+}
+
+.payment-method-dropdown__menu {
+  position: absolute;
+  top: 43px;
+  left: 0;
+  width: 164px;
+  background: #fff;
+  border: 2px solid #000;
+  border-top: none;
+  box-sizing: border-box;
+  z-index: 1;
+}
+
+.payment-method-dropdown__option {
+  width: 100%;
+  height: 28px;
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  background: transparent;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.payment-method-dropdown__option:hover {
+  background: #f5f5f5;
+}
+
+.payment-method-dropdown__divider {
+  width: 160px;
+  height: 1px;
+  background: #D9D9D9;
+  margin: 0 auto;
+}
+
+.payment-method-dropdown__option--paypal {
+  width: 56px;
+}
+
+.payment-method-dropdown__option--card {
+  width: 92px;
+} 
