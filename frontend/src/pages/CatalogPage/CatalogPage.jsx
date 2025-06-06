@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import OSWindow from '../../components/layout/OSWindow/OSWindow';
 import WindowTab from '../../components/layout/WindowTab/WindowTab';
 import ProductCard from '../../components/ui/ProductCard/ProductCard';
+import loading1 from '../../assets/loading1.gif';
 import './CatalogPage.css';
 
 const CatalogPage = () => {
@@ -32,7 +33,9 @@ const CatalogPage = () => {
       <WindowTab title="Catalog">
         <div className="catalog-page">
           {loading && (
-            <div className="catalog-page__loading">Loading...</div>
+            <div className="catalog-page__loading">
+              <img src={loading1} alt="Loading..." draggable="false" />
+            </div>
           )}
           
           {error && (

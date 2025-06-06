@@ -11,7 +11,7 @@ const getAuthHeaders = () => {
 const handleResponse = async (response) => {
   if (!response.ok) {
     if (response.status === 401) {
-      // Clear token on authentication error
+      //Очистка токена при ошибке аутентификации
       localStorage.removeItem('token');
     }
     const error = await response.json();
@@ -67,7 +67,8 @@ export const authApi = {
         }
       });
 
-      return handleResponse(response);
+      const data = await handleResponse(response);
+      return data;
     } catch (error) {
       throw error;
     }

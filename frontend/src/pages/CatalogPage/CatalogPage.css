@@ -53,17 +53,20 @@
   background-color: transparent;
 }
 
-.catalog-page__loading,
-.catalog-page__error {
-  color: #fff;
-  font-family: 'TDAText', monospace;
+.catalog-page__loading {
+  margin-top: 138px;
+  font-family: 'TDAText Regular', monospace;
   font-size: 15px;
+  color: #000;
   text-align: center;
-  padding: 20px;
 }
 
 .catalog-page__error {
   color: #ff0000;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  text-align: center;
+  padding: 20px;
 }
 
 .catalog-page__grid {

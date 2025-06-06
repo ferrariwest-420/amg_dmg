@@ -110,7 +110,6 @@
   color: #fff;
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 480px) {
   .profile {
     padding: 0;

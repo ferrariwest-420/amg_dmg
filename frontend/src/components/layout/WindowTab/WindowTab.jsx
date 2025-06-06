@@ -23,7 +23,7 @@ const WindowTab = ({ title, onClose, children }) => {
             <div className="window-tab__title">{title}</div>
           </div>
           <button className="window-tab__close-btn" onClick={handleClose}>
-            <img src={closeIcon} alt="Close" className="window-tab__close-icon" />
+            <img src={closeIcon} alt="Close" className="window-tab__close-icon" draggable="false" />
           </button>
         </div>
       </div>

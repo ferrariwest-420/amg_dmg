@@ -3,13 +3,21 @@
   height: 100%;
 }
 
+.gallery-page__loading {
+  margin-top: 138px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  text-align: center;
+}
+
 .gallery-page__folders {
   display: flex;
   padding: 30px 0 0 29px;
   background: transparent;
 }
 
-/* Override default font size for folder icons */
+/* Переопределение стандартного шрифта для иконки папки */
 .gallery-page__folders :global(.folder-icon__label) {
   font-family: 'TDAText Condensed', sans-serif;
   font-size: 14px;

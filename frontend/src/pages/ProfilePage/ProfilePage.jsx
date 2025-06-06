@@ -20,7 +20,7 @@ const ProfilePage = () => {
             {folders.map((folder, index) => (
               <FolderIcon
                 key={folder.name}
-                icon={<img src={folder.icon} alt={folder.name} />}
+                icon={<img src={folder.icon} alt={folder.name} draggable="false" />}
                 label={folder.name}
                 to={folder.to}
                 style={{ marginLeft: index > 0 ? '0px' : '0' }}

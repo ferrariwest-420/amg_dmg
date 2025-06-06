@@ -179,4 +179,9 @@
   align-items: center;
   justify-content: center;
   border-radius: 0;
+  outline: none;
+}
+
+.cart-page__checkout-button:focus {
+  outline: none;
 } 

@@ -1,4 +1,4 @@
-import { query } from '../db/index.js';
+import { query } from '../db/database.js';
 import asyncHandler from 'express-async-handler';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
@@ -13,17 +13,25 @@ export const register = asyncHandler(async (req, res) => {
   console.log('Registration attempt:', { username, email, country, full_address });
 
   try {
-    // Проверяем, существует ли пользователь
-    const userExists = await query(
-      'SELECT * FROM users WHERE username = $1 OR email = $2',
-      [username, email]
+    // Проверяем, существует ли пользователь с таким email
+    const emailExists = await query(
+      'SELECT id FROM users WHERE email = $1',
+      [email]
     );
 
-    if (userExists.rows.length > 0) {
-      console.log('User already exists');
-      res.status(400).json({
-        message: 'Пользователь с таким именем или email уже существует'
-      });
+    if (emailExists.rows.length > 0) {
+      res.status(400).json({ message: 'The user with this email already exists' });
+      return;
+    }
+
+    // Проверяем, существует ли пользователь с таким username
+    const usernameExists = await query(
+      'SELECT id FROM users WHERE username = $1',
+      [username]
+    );
+
+    if (usernameExists.rows.length > 0) {
+      res.status(400).json({ message: 'The user with this username already exists' });
       return;
     }
 
@@ -58,23 +66,22 @@ export const register = asyncHandler(async (req, res) => {
 export const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
-  // Находим пользователя
+  // Получаем пользователя по email
   const result = await query(
-    'SELECT * FROM users WHERE email = $1',
+    'SELECT id, username, email, password_hash, country, full_address FROM users WHERE email = $1',
     [email]
   );
 
   if (result.rows.length === 0) {
-    res.status(401).json({ message: 'Неверный email или пароль' });
+    res.status(401).json({ message: 'Invalid email or password' });
     return;
   }
 
   const user = result.rows[0];
-
-  // Проверяем пароль
   const isMatch = await bcrypt.compare(password, user.password_hash);
+
   if (!isMatch) {
-    res.status(401).json({ message: 'Неверный email или пароль' });
+    res.status(401).json({ message: 'Invalid email or password' });
     return;
   }
 
@@ -89,7 +96,7 @@ export const login = asyncHandler(async (req, res) => {
   });
 });
 
-// Получить профиль пользователя
+// Получение профиля пользователя
 export const getProfile = asyncHandler(async (req, res) => {
   const result = await query(
     'SELECT id, username, email, country, full_address FROM users WHERE id = $1',
@@ -97,14 +104,15 @@ export const getProfile = asyncHandler(async (req, res) => {
   );
 
   if (result.rows.length === 0) {
-    res.status(404).json({ message: 'Пользователь не найден' });
+    res.status(404).json({ message: 'User not found' });
     return;
   }
 
-  res.json(result.rows[0]);
+  const user = result.rows[0];
+  res.json(user);
 });
 
-// Обновить профиль пользователя
+// Обновление профиля пользователя
 export const updateProfile = asyncHandler(async (req, res) => {
   const { country, full_address, old_password, new_password } = req.body;
   
@@ -129,7 +137,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
 
       if (userResult.rows.length === 0) {
         console.log('User not found');
-        return res.status(404).json({ message: 'Пользователь не найден' });
+        return res.status(404).json({ message: 'User not found' });
       }
 
       // Проверяем старый пароль
@@ -138,7 +146,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
       
       if (!isMatch) {
         console.log('Invalid old password');
-        return res.status(400).json({ message: 'Неверный текущий пароль' });
+        return res.status(400).json({ message: 'Invalid old password' });
       }
 
       // Хешируем новый пароль
@@ -171,7 +179,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
     res.json(result.rows[0]);
   } catch (error) {
     console.error('Error updating profile:', error);
-    res.status(500).json({ message: 'Ошибка при обновлении профиля' });
+    res.status(500).json({ message: 'Error updating profile' });
   }
 });
 

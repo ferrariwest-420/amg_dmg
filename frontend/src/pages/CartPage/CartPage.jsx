@@ -65,6 +65,7 @@ const CartPage = () => {
                 src={loading1} 
                 alt="Loading cart" 
                 className="cart-page__empty-image" 
+                draggable="false"
               />
               <div className="cart-page__empty-text">
                 Loading...
@@ -81,7 +82,8 @@ const CartPage = () => {
               <img 
                 src={loading1} 
                 alt="Empty cart" 
-                className="cart-page__empty-image" 
+                className="cart-page__empty-image"
+                draggable="false"
               />
               <div className="cart-page__empty-text">
                 Cart is empty

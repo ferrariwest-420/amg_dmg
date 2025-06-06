@@ -21,13 +21,13 @@ const ProtectedRoute = ({ children }) => {
         background: 'transparent',
         pointerEvents: 'none'
       }}>
-        <img src={loading1} alt="Loading..." style={{ width: '70px', height: '64px', imageRendering: 'pixelated' }} />
+        <img src={loading1} alt="Loading..." style={{ width: '70px', height: '64px', imageRendering: 'pixelated' }} draggable="false" />
       </div>
     );
   }
 
   if (!isAuthenticated) {
-    // Save the attempted URL for redirecting after login
+    // Сохраняем URL для перенаправления после входа
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
 

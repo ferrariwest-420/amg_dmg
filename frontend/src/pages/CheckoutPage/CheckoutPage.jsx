@@ -5,11 +5,13 @@ import WindowTab from '../../components/layout/WindowTab/WindowTab';
 import PaymentMethodDropdown from './PaymentMethodDropdown';
 import { useAuth } from '../../context/AuthContext';
 import { useCart } from '../../context/CartContext';
+import ValidationMessage from '../../components/ui/ValidationMessage/ValidationMessage';
+import loading1 from '../../assets/loading1.gif';
 import './CheckoutPage.css';
 
 const CheckoutPage = () => {
   const navigate = useNavigate();
-  const { isAuthenticated, user, loading } = useAuth();
+  const { isAuthenticated, user, loading: authLoading } = useAuth();
   const { calculateTotal, cartItems } = useCart();
   const [formData, setFormData] = useState({
     email: '',
@@ -18,15 +20,21 @@ const CheckoutPage = () => {
     paymentMethod: 'paypal'
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState('');
+  const [fieldErrors, setFieldErrors] = useState({
+    email: '',
+    country: '',
+    fullAddress: ''
+  });
 
   useEffect(() => {
-    if (!loading && !isAuthenticated) {
+    if (!authLoading && !isAuthenticated) {
       navigate('/login');
     }
-  }, [isAuthenticated, loading, navigate]);
+  }, [isAuthenticated, authLoading, navigate]);
 
   useEffect(() => {
-    if (user) {
+    if (!authLoading && user) {
       const updates = {};
       if (user.email) updates.email = user.email;
       if (user.country) updates.country = user.country;
@@ -39,11 +47,52 @@ const CheckoutPage = () => {
         }));
       }
     }
-  }, [user]);
+  }, [user, authLoading]);
+
+  const validateForm = () => {
+    const newFieldErrors = {
+      email: '',
+      country: '',
+      fullAddress: ''
+    };
+    let isValid = true;
+
+    if (!formData.email || formData.email.trim() === '') {
+      newFieldErrors.email = 'Email is required';
+      isValid = false;
+    } else {
+      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+      if (!emailRegex.test(formData.email)) {
+        newFieldErrors.email = 'Please enter a valid email address';
+        isValid = false;
+      }
+    }
+
+    if (!formData.country || formData.country.trim() === '') {
+      newFieldErrors.country = 'Country is required';
+      isValid = false;
+    }
+
+    if (!formData.fullAddress || formData.fullAddress.trim() === '') {
+      newFieldErrors.fullAddress = 'Full address is required';
+      isValid = false;
+    }
+
+    setFieldErrors(newFieldErrors);
+    if (!isValid) {
+      setError(Object.values(newFieldErrors).find(error => error) || '');
+    }
+    return isValid;
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+    setError('');
+    setFieldErrors(prev => ({
+      ...prev,
+      [name]: ''
+    }));
   };
 
   const handlePaymentMethodChange = (method) => {
@@ -53,7 +102,11 @@ const CheckoutPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (cartItems.length === 0) {
-      alert('Your cart is empty');
+      setError('Your cart is empty');
+      return;
+    }
+
+    if (!validateForm()) {
       return;
     }
 
@@ -81,18 +134,19 @@ const CheckoutPage = () => {
       navigate(`/profile/orders/${data.order.id}`);
     } catch (error) {
       console.error('Error creating order:', error);
-      alert('Failed to process payment. Please try again.');
+      setError('Failed to process payment. Please try again.');
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (loading) {
+  if (authLoading) {
     return (
       <OSWindow>
         <WindowTab title="Checkout">
-          <div className="checkout-form">
-            Loading...
+          <div className="checkout-form__loading">
+            <img src={loading1} alt="Loading..." draggable="false" />
+            <div className="checkout-form__loading-text">Loading...</div>
           </div>
         </WindowTab>
       </OSWindow>
@@ -102,60 +156,72 @@ const CheckoutPage = () => {
   return (
     <OSWindow>
       <WindowTab title="Checkout">
-        <form className="checkout-form" onSubmit={handleSubmit}>
-          <div className="checkout-form__field" style={{ marginTop: 30 }}>
-            <label htmlFor="email">E-mail</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="checkout-form__field">
-            <label htmlFor="country">Country</label>
-            <input
-              type="text"
-              id="country"
-              name="country"
-              value={formData.country}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <div className="checkout-form__field">
-            <label htmlFor="fullAddress">Full Address</label>
-            <input
-              type="text"
-              id="fullAddress"
-              name="fullAddress"
-              value={formData.fullAddress}
-              onChange={handleChange}
-              required
-            />
-          </div>
-          <PaymentMethodDropdown 
-            value={formData.paymentMethod} 
-            onChange={handlePaymentMethodChange} 
-          />
-          <div className="checkout-form__total-container">
-            <div className="checkout-form__total-label-container">
-              <span className="checkout-form__total-label">Total Amount:</span>
+        <div className="checkout-container">
+          <ValidationMessage message={error} />
+          <form className="checkout-form" onSubmit={handleSubmit} noValidate>
+            <div className="checkout-form__field" style={{ marginTop: 30 }}>
+              <label htmlFor="email">E-mail</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className={fieldErrors.email ? 'error' : ''}
+              />
             </div>
-            <div className="checkout-form__total-value-container">
-              <span className="checkout-form__total-value">${calculateTotal()}</span>
+            <div className="checkout-form__field">
+              <label htmlFor="country">Country</label>
+              <input
+                type="text"
+                id="country"
+                name="country"
+                value={formData.country}
+                onChange={handleChange}
+                className={fieldErrors.country ? 'error' : ''}
+              />
             </div>
-          </div>
-          <button 
-            type="submit" 
-            className="checkout-form__submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Processing...' : 'Payment'}
-          </button>
-        </form>
+            <div className="checkout-form__field">
+              <label htmlFor="fullAddress">Full Address</label>
+              <input
+                type="text"
+                id="fullAddress"
+                name="fullAddress"
+                value={formData.fullAddress}
+                onChange={handleChange}
+                className={fieldErrors.fullAddress ? 'error' : ''}
+              />
+            </div>
+            <PaymentMethodDropdown 
+              value={formData.paymentMethod} 
+              onChange={handlePaymentMethodChange} 
+            />
+            <div className="checkout-form__total-container">
+              <div className="checkout-form__total-label-container">
+                <span className="checkout-form__total-label">Total Amount:</span>
+              </div>
+              <div className="checkout-form__total-value-container">
+                <span className="checkout-form__total-value">${calculateTotal()}</span>
+              </div>
+            </div>
+            {isSubmitting ? (
+              <div className="checkout-form__loading">
+                <img src={loading1} alt="Loading..." draggable="false" />
+                <div className="checkout-form__loading-text">
+                  Processing...
+                </div>
+              </div>
+            ) : (
+              <button 
+                type="submit" 
+                className="checkout-form__submit"
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Processing...' : 'Payment'}
+              </button>
+            )}
+          </form>
+        </div>
       </WindowTab>
     </OSWindow>
   );

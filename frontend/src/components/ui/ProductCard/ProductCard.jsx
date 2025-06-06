@@ -44,25 +44,22 @@ const ProductCard = ({ product }) => {
       className={`product-card ${!isLoading ? 'product-card--clickable' : ''}`}
       onClick={handleClick}
     >
-      {/* Фото товара */}
       <img 
         src={imageUrl}
         alt={isLoading ? "Loading..." : name}
         className={isLoading ? "product-card__loading-image" : "product-card__image"}
         onError={handleImageError}
+        draggable="false"
       />
       
-      {/* Задний фон */}
       <div className={`product-card__background ${isLoading ? 'product-card__background--loading' : ''}`}></div>
       
-      {/* Название товара */}
       <div className="product-card__name-container">
         <div className="product-card__name-text">
           {name}
         </div>
       </div>
       
-      {/* Цена товара */}
       {!isLoading && price && (
         <div className="product-card__price-container">
           <div className="product-card__price-text">

@@ -7,6 +7,8 @@ import loading1 from '../../assets/loading1.gif';
 import documentIcon from '../../assets/icons/document.svg';
 import './OrdersPage.css';
 
+const EMPTY_MESSAGE = "There\u2019s nothing";
+
 const OrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -59,14 +61,15 @@ const OrdersPage = () => {
 
   return (
     <OSWindow>
-      <WindowTab title="Orders">
+      <WindowTab title="Orders" onClose={() => navigate('/profile')}>
         <div className="orders-page">
           {isLoading ? (
             <div className="orders-page__empty">
               <img 
                 src={loading1} 
                 alt="Loading orders" 
-                className="orders-page__empty-image" 
+                className="orders-page__empty-image"
+                draggable="false"
               />
               <div className="orders-page__empty-text">
                 Loading...
@@ -83,10 +86,11 @@ const OrdersPage = () => {
               <img 
                 src={loading1} 
                 alt="No orders" 
-                className="orders-page__empty-image" 
+                className="orders-page__empty-image"
+                draggable="false"
               />
               <div className="orders-page__empty-text">
-                There's nothing
+                {EMPTY_MESSAGE}
               </div>
             </div>
           ) : (
@@ -95,7 +99,7 @@ const OrdersPage = () => {
                 {orders.slice(0, 18).map((order) => (
                   <FolderIcon
                     key={order.id}
-                    icon={<img src={documentIcon} alt="Order" />}
+                    icon={<img src={documentIcon} alt="Order" draggable="false" />}
                     label={formatDate(order.created_at)}
                     to={`/profile/orders/${order.id}`}
                   />

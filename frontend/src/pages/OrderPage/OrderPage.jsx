@@ -30,6 +30,8 @@ const OrderPage = () => {
         }
 
         const data = await response.json();
+        console.log('Order data:', data);
+        console.log('Order items:', data.items);
         setOrder(data);
         setError(null);
       } catch (err) {
@@ -71,16 +73,23 @@ const OrderPage = () => {
     });
   };
 
+  const formatPaymentMethod = (method) => {
+    if (!method) return 'N/A';
+    if (method.toLowerCase() === 'paypal') return 'PayPal';
+    return method.charAt(0).toUpperCase() + method.slice(1);
+  };
+
   return (
     <OSWindow>
-      <WindowTab title={`Order #${id}`} onClose={handleClose}>
+      <WindowTab title={`Order #${id}`} onClose={() => navigate('/profile/orders')}>
         <div className="order-page">
           {isLoading ? (
             <div className="order-page__loading">
               <img 
                 src={loading1} 
-                alt="Loading order" 
-                className="order-page__loading-image" 
+                alt="Loading..." 
+                className="order-page__loading-image"
+                draggable="false"
               />
               <div className="order-page__loading-text">
                 Loading...
@@ -108,7 +117,7 @@ const OrderPage = () => {
                     </div>
                     <div className="order-page__info-item">
                       <span className="order-page__info-label">Payment Method:</span>
-                      <span className="order-page__info-value">{order.payment_method || 'N/A'}</span>
+                      <span className="order-page__info-value">{formatPaymentMethod(order.payment_method)}</span>
                     </div>
                   </div>
                   <div className="order-page__info-group">
@@ -132,24 +141,29 @@ const OrderPage = () => {
                     <div className="order-page__items-header-cell">Price</div>
                     <div className="order-page__items-header-cell">Total</div>
                   </div>
-                  {order.items.map((item) => (
-                    <div key={item.id} className="order-page__item">
-                      <div className="order-page__item-cell">
-                        <img 
-                          src={item.product.image_url} 
-                          alt={item.product.name} 
-                          className="order-page__item-image" 
-                        />
+                  {order.items.map((item) => {
+                    console.log('Item data:', item);
+                    console.log('Product data:', item.product);
+                    return (
+                      <div key={item.id} className="order-page__item">
+                        <div className="order-page__item-cell">
+                          <img 
+                            src={item.product.image_url} 
+                            alt={item.product.name} 
+                            className="order-page__item-image"
+                            draggable="false"
+                          />
+                        </div>
+                        <div className="order-page__item-cell">{item.product.name}</div>
+                        <div className="order-page__item-cell">
+                          {item.product.has_size_selection ? item.size : 'OS'}
+                        </div>
+                        <div className="order-page__item-cell">{item.quantity}</div>
+                        <div className="order-page__item-cell">${item.price_each}</div>
+                        <div className="order-page__item-cell">${(item.price_each * item.quantity).toFixed(2)}</div>
                       </div>
-                      <div className="order-page__item-cell">{item.product.name}</div>
-                      <div className="order-page__item-cell">
-                        {item.product.has_size_selection ? item.size : 'OS'}
-                      </div>
-                      <div className="order-page__item-cell">{item.quantity}</div>
-                      <div className="order-page__item-cell">${item.price_each}</div>
-                      <div className="order-page__item-cell">${(item.price_each * item.quantity).toFixed(2)}</div>
-                    </div>
-                  ))}
+                    );
+                  })}
                 </div>
               </div>
 

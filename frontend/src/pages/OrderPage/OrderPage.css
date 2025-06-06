@@ -54,6 +54,7 @@
   scrollbar-width: none;
   -ms-overflow-style: none;
   padding: 30px;
+  transform: translateX(-23.5px);
 }
 
 .order-page__content::-webkit-scrollbar {
@@ -68,6 +69,7 @@
   background: #000;
   border: 1px solid #000;
   margin-bottom: 20px;
+  width: 649px;
 }
 
 .order-page__info-group {
@@ -93,6 +95,10 @@
   color: #fff;
 }
 
+.order-page__payment-method {
+  text-transform: capitalize;
+}
+
 .order-page__status {
   text-transform: capitalize;
   color: #4CAF50;
@@ -106,6 +112,7 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
+  width: 654px;
 }
 
 .order-page__items-header {
@@ -118,6 +125,8 @@
   font-family: 'TDAText Regular', monospace;
   font-size: 14px;
   font-weight: bold;
+  width: 649px;
+  box-sizing: border-box;
 }
 
 .order-page__items-header-cell {
@@ -135,6 +144,8 @@
   align-items: center;
   font-family: 'TDAText Regular', monospace;
   font-size: 14px;
+  width: 649px;
+  box-sizing: border-box;
 }
 
 .order-page__item-cell {
@@ -148,6 +159,7 @@
 .order-page__item-image {
   width: 80px;
   height: 80px;
-  object-fit: cover;
+  object-fit: contain;
   image-rendering: pixelated;
+  background: #fff;
 } 

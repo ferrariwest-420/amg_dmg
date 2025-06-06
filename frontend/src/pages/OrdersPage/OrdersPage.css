@@ -28,10 +28,7 @@
   font-family: 'TDAText Regular', monospace;
   font-size: 15px;
   color: #000;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
+  text-align: center;
 }
 
 .orders-page__error {
@@ -58,7 +55,6 @@
   margin: 0 auto;
 }
 
-/* Ensure each folder icon has proper spacing */
 .orders-page__grid .folder-icon {
   margin: 0;
   width: auto;

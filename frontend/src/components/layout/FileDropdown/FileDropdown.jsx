@@ -24,7 +24,6 @@ const FileDropdown = ({ isOpen, onClose }) => {
   if (!isOpen) return null;
 
   const handleOpenInnerArchive = () => {
-    // Handle opening inner archive
     onClose();
   };
 

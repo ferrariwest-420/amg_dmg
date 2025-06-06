@@ -8,7 +8,7 @@ export const AuthProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-  // Check authentication status on mount
+  // Проверка статуса аутентификации при монтировании
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('token');
@@ -19,8 +19,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const response = await authApi.getProfile();
-        setUser(response.user);
+        const userData = await authApi.getProfile();
+        setUser(userData);
         setIsAuthenticated(true);
       } catch (error) {
         console.error('Failed to get user profile:', error);

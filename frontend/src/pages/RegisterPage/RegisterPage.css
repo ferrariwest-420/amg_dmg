@@ -136,7 +136,6 @@
   cursor: not-allowed;
 }
 
-/* Медиа-запросы для адаптивности */
 @media (max-width: 480px) {
   .register__window {
     border: none;
@@ -252,6 +251,16 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.register-form__submit:focus {
+  outline: none;
+}
+
+.register-form__submit::-moz-focus-inner {
+  border: 0;
 }
 
 .register-form__error {

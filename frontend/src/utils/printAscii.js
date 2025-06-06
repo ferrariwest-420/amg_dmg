@@ -3,26 +3,26 @@ export const printAscii = async () => {
     const response = await fetch(process.env.PUBLIC_URL + '/ascii/doll-life.txt');
     const text = await response.text();
     
-    // Save original title
+    // Сохраняем оригинальный заголовок
     const originalTitle = document.title;
     
-    // Create print-only container
+    // Создаем контейнер для печати
     const printContainer = document.createElement('div');
     printContainer.id = 'ascii-print-container';
     printContainer.style.cssText = 'display: none;';
     printContainer.innerHTML = text;
     document.body.appendChild(printContainer);
 
-    // Add print styles
+    // Добавляем стили для печати
     const style = document.createElement('style');
     style.textContent = `
       @media print {
-        /* Hide everything except our ASCII container */
+        /* Скрываем все, кроме контейнера ASCII */
         body > *:not(#ascii-print-container) {
           display: none !important;
         }
         
-        /* Show and style ASCII container */
+        /* Показываем и стилизуем контейнер ASCII */
         #ascii-print-container {
           display: block !important;
           position: fixed;
@@ -44,13 +44,13 @@ export const printAscii = async () => {
     `;
     document.head.appendChild(style);
 
-    // Change title for printing
+    // Изменяем заголовок для печати
     document.title = 'Amygdala Damage';
 
-    // Print and cleanup
+    // Печать и очистка
     window.print();
     
-    // Remove elements and restore title after print dialog closes
+    // Удаляем элементы и восстанавливаем заголовок после закрытия диалога печати
     setTimeout(() => {
       document.body.removeChild(printContainer);
       document.head.removeChild(style);

@@ -1,7 +1,7 @@
-import { query } from '../db/index.js';
+import { query } from '../db/database.js';
 import asyncHandler from 'express-async-handler';
 
-// Получить или создать корзину пользователя
+// Получение или создание корзины пользователя
 const getOrCreateCart = async (userId) => {
   try {
     let cartResult = await query(
@@ -23,7 +23,7 @@ const getOrCreateCart = async (userId) => {
   }
 };
 
-// Получить корзину пользователя
+// Получение корзины пользователя
 export const getCart = asyncHandler(async (req, res) => {
   try {
     const cartId = await getOrCreateCart(req.user.id);
@@ -90,7 +90,7 @@ export const getCart = asyncHandler(async (req, res) => {
   }
 });
 
-// Добавить товар в корзину
+// Добавление товара в корзину
 export const addToCart = asyncHandler(async (req, res) => {
   try {
     const { productId, quantity = 1, size = 'OS' } = req.body;
@@ -159,7 +159,7 @@ export const addToCart = asyncHandler(async (req, res) => {
   }
 });
 
-// Обновить количество товара в корзине
+// Обновление количества товара в корзине
 export const updateCartItem = asyncHandler(async (req, res) => {
   try {
   const { itemId } = req.params;
@@ -262,7 +262,7 @@ export const updateCartItem = asyncHandler(async (req, res) => {
   }
 });
 
-// Удалить товар из корзины
+// Удаление товара из корзины
 export const removeFromCart = asyncHandler(async (req, res) => {
   try {
   const { itemId } = req.params;

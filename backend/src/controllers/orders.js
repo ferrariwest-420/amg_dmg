@@ -1,8 +1,7 @@
-import { query } from '../db/index.js';
+import { query, pool } from '../db/database.js';
 import asyncHandler from 'express-async-handler';
-import { pool } from '../db/index.js';
 
-// Получить все заказы пользователя
+// Получение всех заказов пользователя
 export const getUserOrders = asyncHandler(async (req, res) => {
   try {
     console.log('Getting orders for user:', req.user.id);
@@ -45,14 +44,14 @@ export const getUserOrders = asyncHandler(async (req, res) => {
     console.error('Error in getUserOrders:', error);
     console.error('Error stack:', error.stack);
     res.status(500).json({ 
-      message: 'Ошибка при получении заказов',
+      message: 'Error getting orders',
       details: error.message,
       stack: error.stack
     });
   }
 });
 
-// Создать новый заказ из корзины
+// Создание нового заказа из корзины
 export const createOrder = asyncHandler(async (req, res) => {
   const { delivery_address, payment_method } = req.body;
   console.log('Creating order for user:', req.user.id);
@@ -72,7 +71,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     );
     
     if (cartResult.rows.length === 0) {
-      throw new Error('Корзина не найдена');
+      throw new Error('Cart not found');
     }
     
     const cartId = cartResult.rows[0].id;
@@ -90,7 +89,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     console.log('Cart items found:', cartItems.rows);
 
     if (cartItems.rows.length === 0) {
-      throw new Error('Корзина пуста');
+      throw new Error('Cart is empty');
     }
 
     // Вычисляем общую сумму
@@ -128,7 +127,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     console.log('Transaction committed successfully');
     
     res.status(201).json({
-      message: 'Заказ успешно создан',
+      message: 'Order created successfully',
       order: {
         ...order.rows[0],
         items: cartItems.rows.map(item => ({
@@ -147,7 +146,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     console.log('Transaction rolled back due to error');
     
     res.status(500).json({ 
-      message: 'Ошибка при создании заказа',
+      message: 'Error creating order',
       details: error.message,
       stack: process.env.NODE_ENV === 'development' ? error.stack : undefined
     });
@@ -157,7 +156,7 @@ export const createOrder = asyncHandler(async (req, res) => {
   }
 });
 
-// Получить детали заказа
+// Получение деталей заказа
 export const getOrderDetails = asyncHandler(async (req, res) => {
   const { orderId } = req.params;
   
@@ -171,7 +170,7 @@ export const getOrderDetails = asyncHandler(async (req, res) => {
               'size', oi.size,
               'product', (SELECT json_build_object(
                 'name', p.name,
-                'image_url', p.cart_image_url,
+                'image_url', p.catalog_image_url,
                 'has_size_selection', p.has_size_selection
               ) FROM products p WHERE p.id = oi.product_id)
             )) as items
@@ -184,7 +183,7 @@ export const getOrderDetails = asyncHandler(async (req, res) => {
   );
 
   if (result.rows.length === 0) {
-    res.status(404).json({ message: 'Заказ не найден' });
+    res.status(404).json({ message: 'Order not found' });
     return;
   }
 

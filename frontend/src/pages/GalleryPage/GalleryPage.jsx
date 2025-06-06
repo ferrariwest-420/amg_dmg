@@ -20,7 +20,7 @@ const GalleryPage = () => {
             {folders.map((folder, index) => (
               <FolderIcon
                 key={folder.name}
-                icon={<img src={posterIcon} alt={folder.name} />}
+                icon={<img src={posterIcon} alt={folder.name} draggable="false" />}
                 label={folder.name}
                 to={folder.to}
                 style={{ marginLeft: index > 0 ? '50px' : '0' }}

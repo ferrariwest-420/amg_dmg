@@ -57,7 +57,7 @@ const ProductPage = () => {
     try {
       await addToCart(product, selectedSize);
     setIsAddedToCart(true);
-      setTimeout(() => setIsAddedToCart(false), 2000); // Reset after 2 seconds
+      setTimeout(() => setIsAddedToCart(false), 2000); // Сброс через 2 секунды
     } catch (err) {
       setAddToCartError(err.message || 'Failed to add item to cart');
       setIsAddedToCart(false);
@@ -103,27 +103,27 @@ const ProductPage = () => {
     <OSWindow>
       <WindowTab title="Product" onClose={() => navigate('/catalog')}>
         <div className="product-page">
-          {/* Pattern background */}
           <div className="product-page__pattern"></div>
           
-          {/* Изображения */}
           <img 
             src={`${baseUrl}${pixel_bg_url}`}
             alt={`${name} pixel background`}
             className="product-page__image product-page__image--pixel-bg"
+            draggable="false"
           />
           <img 
             src={`${baseUrl}${detail_image_url_1}`}
             alt={`${name} detail 1`}
             className="product-page__image product-page__image--detail-1"
+            draggable="false"
           />
           <img 
             src={`${baseUrl}${detail_image_url_2}`}
             alt={`${name} detail 2`}
             className="product-page__image product-page__image--detail-2"
+            draggable="false"
           />
 
-          {/* Выбор размера */}
           {has_size_selection && Array.isArray(sizes) && sizes.length > 0 && !sizes.includes(null) && (
             <div className="product-page__size-selector">
               <SizeSelector 
@@ -134,14 +134,12 @@ const ProductPage = () => {
             </div>
           )}
 
-          {/* Сообщение об ошибке */}
           {addToCartError && (
             <div className="product-page__error-message">
               {addToCartError}
             </div>
           )}
 
-          {/* Кнопка добавления в корзину */}
           <button 
             className={`product-page__add-to-cart ${has_size_selection && !selectedSize ? 'product-page__add-to-cart--disabled' : ''}`}
             onClick={handleAddToCart}

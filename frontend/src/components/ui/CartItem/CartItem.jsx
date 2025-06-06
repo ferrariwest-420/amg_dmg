@@ -5,7 +5,7 @@ import closeIcon from '../../../assets/icons/close.svg';
 import './CartItem.css';
 
 const CartItem = ({ 
-  product, // product contains both product data and cart item data
+  product, // содержит данные о продукте и данные корзины
   onQuantityChange, 
   onSizeChange, 
   onRemove 
@@ -63,6 +63,7 @@ const CartItem = ({
           src={`${baseUrl}${product.cart_image_url}`} 
           alt={product.name} 
           className="cart-item__image" 
+          draggable="false"
         />
       </div>
 

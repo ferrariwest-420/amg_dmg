@@ -4,8 +4,13 @@ import './FolderIcon.css';
 
 const FolderIcon = ({ icon, label, to, style }) => {
   return (
-    <Link to={to} className="folder-icon" style={style}>
-      <div className="folder-icon__image">
+    <Link 
+      to={to} 
+      className="folder-icon" 
+      style={style}
+      draggable="false"
+    >
+      <div className="folder-icon__icon">
         {icon}
       </div>
       <div className="folder-icon__label">

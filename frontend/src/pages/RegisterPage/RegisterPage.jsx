@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import OSWindow from '../../components/layout/OSWindow/OSWindow';
 import WindowTab from '../../components/layout/WindowTab/WindowTab';
+import loading1 from '../../assets/loading1.gif';
 import './RegisterPage.css';
 
 const ValidationMessage = ({ message }) => {
@@ -18,6 +19,7 @@ const RegisterPage = () => {
   const navigate = useNavigate();
   const { register } = useAuth();
   const [error, setError] = useState('');
+  const [isPageLoading, setIsPageLoading] = useState(true);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -27,15 +29,24 @@ const RegisterPage = () => {
     passwordRepeat: ''
   });
 
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsPageLoading(false);
+    }, 1500);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const [fieldErrors, setFieldErrors] = useState({
     username: '',
     email: '',
     password: '',
     passwordRepeat: '',
-    full_address: ''
+    full_address: '',
+    country: ''
   });
 
-  // Get the current validation message to display
+  // Получение текущего сообщения валидации для отображения
   const getCurrentValidationMessage = () => {
     if (error) return error;
     if (fieldErrors.username) return fieldErrors.username;
@@ -43,10 +54,18 @@ const RegisterPage = () => {
     if (fieldErrors.password) return fieldErrors.password;
     if (fieldErrors.passwordRepeat) return fieldErrors.passwordRepeat;
     if (fieldErrors.full_address) return fieldErrors.full_address;
+    if (fieldErrors.country) return fieldErrors.country;
     return '';
   };
 
   const validateUsername = (username) => {
+    if (!username || username.trim() === '') {
+      setFieldErrors(prev => ({
+        ...prev,
+        username: 'Username is required'
+      }));
+      return false;
+    }
     const usernameRegex = /^[a-zA-Z0-9]+$/;
     if (!usernameRegex.test(username)) {
       setFieldErrors(prev => ({
@@ -60,6 +79,13 @@ const RegisterPage = () => {
   };
 
   const validateEmail = (email) => {
+    if (!email || email.trim() === '') {
+      setFieldErrors(prev => ({
+        ...prev,
+        email: 'Email is required'
+      }));
+      return false;
+    }
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       setFieldErrors(prev => ({
@@ -73,6 +99,13 @@ const RegisterPage = () => {
   };
 
   const validatePassword = (password) => {
+    if (!password || password.trim() === '') {
+      setFieldErrors(prev => ({
+        ...prev,
+        password: 'Password is required'
+      }));
+      return false;
+    }
     if (password.length < 6) {
       setFieldErrors(prev => ({
         ...prev,
@@ -85,6 +118,13 @@ const RegisterPage = () => {
   };
 
   const validatePasswordMatch = (password, passwordRepeat) => {
+    if (!passwordRepeat || passwordRepeat.trim() === '') {
+      setFieldErrors(prev => ({
+        ...prev,
+        passwordRepeat: 'Please repeat your password'
+      }));
+      return false;
+    }
     if (password !== passwordRepeat) {
       setFieldErrors(prev => ({
         ...prev,
@@ -108,6 +148,18 @@ const RegisterPage = () => {
     return true;
   };
 
+  const validateCountry = (country) => {
+    if (!country || country.trim() === '') {
+      setFieldErrors(prev => ({
+        ...prev,
+        country: 'Country is required'
+      }));
+      return false;
+    }
+    setFieldErrors(prev => ({ ...prev, country: '' }));
+    return true;
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -115,10 +167,10 @@ const RegisterPage = () => {
       [name]: value
     }));
 
-    // Clear general error when user starts typing
+    // Сброс общей ошибки при вводе пользователем
     setError('');
 
-    // Validate fields on change
+    // Валидация полей при изменении
     switch (name) {
       case 'username':
         validateUsername(value);
@@ -138,6 +190,9 @@ const RegisterPage = () => {
       case 'full_address':
         validateAddress(value);
         break;
+      case 'country':
+        validateCountry(value);
+        break;
       default:
         break;
     }
@@ -147,14 +202,15 @@ const RegisterPage = () => {
     e.preventDefault();
     setError('');
 
-    // Validate all fields before submission
+    // Валидация всех полей перед отправкой
     const isUsernameValid = validateUsername(formData.username);
     const isEmailValid = validateEmail(formData.email);
     const isPasswordValid = validatePassword(formData.password);
     const isPasswordMatchValid = validatePasswordMatch(formData.password, formData.passwordRepeat);
     const isAddressValid = validateAddress(formData.full_address);
+    const isCountryValid = validateCountry(formData.country);
 
-    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isPasswordMatchValid || !isAddressValid) {
+    if (!isUsernameValid || !isEmailValid || !isPasswordValid || !isPasswordMatchValid || !isAddressValid || !isCountryValid) {
       return;
     }
 
@@ -172,7 +228,7 @@ const RegisterPage = () => {
       if (result.success) {
         navigate('/');
       } else {
-        // Handle specific error messages from the server
+        // Обработка конкретных сообщений об ошибках от сервера
         if (result.error.includes('username')) {
           setFieldErrors(prev => ({
             ...prev,
@@ -207,91 +263,92 @@ const RegisterPage = () => {
   return (
     <OSWindow>
       <WindowTab title="Register">
-        <div className="register-container">
-          <ValidationMessage message={getCurrentValidationMessage()} />
-          <form onSubmit={handleSubmit} className="register-form">
-            <div className="register-form__field">
-              <label htmlFor="username">Username</label>
-              <input
-                type="text"
-                id="username"
-                name="username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-                className={fieldErrors.username ? 'error' : ''}
-              />
-            </div>
+        {isPageLoading ? (
+          <div className="register-loading">
+            <img src={loading1} alt="Loading..." draggable="false" />
+          </div>
+        ) : (
+          <div className="register-container">
+            <ValidationMessage message={getCurrentValidationMessage()} />
+            <form onSubmit={handleSubmit} className="register-form" noValidate>
+              <div className="register-form__field">
+                <label htmlFor="username">Username</label>
+                <input
+                  type="text"
+                  id="username"
+                  name="username"
+                  value={formData.username}
+                  onChange={handleChange}
+                  className={fieldErrors.username ? 'error' : ''}
+                />
+              </div>
 
-            <div className="register-form__field">
-              <label htmlFor="email">E-mail</label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                required
-                className={fieldErrors.email ? 'error' : ''}
-              />
-            </div>
+              <div className="register-form__field">
+                <label htmlFor="email">E-mail</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  className={fieldErrors.email ? 'error' : ''}
+                />
+              </div>
 
-            <div className="register-form__field">
-              <label htmlFor="country">Country</label>
-              <input
-                type="text"
-                id="country"
-                name="country"
-                value={formData.country}
-                onChange={handleChange}
-                required
-              />
-            </div>
+              <div className="register-form__field">
+                <label htmlFor="country">Country</label>
+                <input
+                  type="text"
+                  id="country"
+                  name="country"
+                  value={formData.country}
+                  onChange={handleChange}
+                  className={fieldErrors.country ? 'error' : ''}
+                />
+              </div>
 
-            <div className="register-form__field">
-              <label htmlFor="full_address">Full Address</label>
-              <input
-                type="text"
-                id="full_address"
-                name="full_address"
-                value={formData.full_address}
-                onChange={handleChange}
-                required
-                className={fieldErrors.full_address ? 'error' : ''}
-              />
-            </div>
+              <div className="register-form__field">
+                <label htmlFor="full_address">Full Address</label>
+                <input
+                  type="text"
+                  id="full_address"
+                  name="full_address"
+                  value={formData.full_address}
+                  onChange={handleChange}
+                  className={fieldErrors.full_address ? 'error' : ''}
+                />
+              </div>
 
-            <div className="register-form__field">
-              <label htmlFor="password">Password</label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                value={formData.password}
-                onChange={handleChange}
-                required
-                className={fieldErrors.password ? 'error' : ''}
-              />
-            </div>
+              <div className="register-form__field">
+                <label htmlFor="password">Password</label>
+                <input
+                  type="password"
+                  id="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  className={fieldErrors.password ? 'error' : ''}
+                />
+              </div>
 
-            <div className="register-form__field">
-              <label htmlFor="passwordRepeat">Repeat Password</label>
-              <input
-                type="password"
-                id="passwordRepeat"
-                name="passwordRepeat"
-                value={formData.passwordRepeat}
-                onChange={handleChange}
-                required
-                className={fieldErrors.passwordRepeat ? 'error' : ''}
-              />
-            </div>
+              <div className="register-form__field">
+                <label htmlFor="passwordRepeat">Repeat Password</label>
+                <input
+                  type="password"
+                  id="passwordRepeat"
+                  name="passwordRepeat"
+                  value={formData.passwordRepeat}
+                  onChange={handleChange}
+                  className={fieldErrors.passwordRepeat ? 'error' : ''}
+                />
+              </div>
 
-            <button type="submit" className="register-form__submit">
-              Register
-            </button>
-          </form>
-        </div>
+              <button type="submit" className="register-form__submit">
+                Register
+              </button>
+            </form>
+          </div>
+        )}
       </WindowTab>
     </OSWindow>
   );

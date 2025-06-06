@@ -1,6 +1,6 @@
 import express from 'express';
 import { getPosters, getPosterById } from '../controllers/posters.js';
-import { query } from '../db/index.js';
+import { query } from '../db/database.js';
 
 const router = express.Router();
 

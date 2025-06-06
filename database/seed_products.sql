@@ -7,7 +7,7 @@ ALTER SEQUENCE products_id_seq RESTART WITH 1;
 
 -- Вставка товаров
 INSERT INTO products (
-  id,  -- Добавляем явное указание id
+  id, 
   name, 
   description, 
   price, 
@@ -103,11 +103,12 @@ INSERT INTO product_sizes (product_id, size) VALUES
 (4, 'M'),
 (4, 'L'),
 (4, 'XL'),
--- Boxers sizes
+-- Black boxers sizes
 (5, 'S'),
 (5, 'M'),
 (5, 'L'),
 (5, 'XL'),
+-- White boxers sizes
 (6, 'S'),
 (6, 'M'),
 (6, 'L'),

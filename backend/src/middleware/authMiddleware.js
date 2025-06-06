@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 import asyncHandler from 'express-async-handler';
-import { query } from '../db/index.js';
+import { query } from '../db/database.js';
 
 // Защита маршрутов - проверка JWT токена
 export const protect = asyncHandler(async (req, res, next) => {

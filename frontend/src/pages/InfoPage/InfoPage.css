@@ -1,14 +1,24 @@
+@import '../../styles/forms.css';
+
 .info-loading {
   display: flex;
-  justify-content: center;
+  flex-direction: column;
   align-items: center;
-  height: 100%;
-  padding: 20px;
+  margin-top: 138px;
 }
 
 .info-loading img {
-  width: 50px;
-  height: 50px;
+  width: 70px;
+  height: 64px;
+  image-rendering: pixelated;
+}
+
+.info-loading-text {
+  margin-top: 10px;
+  font-family: 'TDAText Regular', monospace;
+  font-size: 15px;
+  color: #000;
+  text-align: center;
 }
 
 .info-form {
@@ -73,11 +83,35 @@
   z-index: 2;
 }
 
+.info-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/* Validation message styles */
+.validation-message {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  padding: 6px 10px;
+  background-color: rgba(255, 0, 0, 0.1);
+  border: 1px solid #ff0000;
+  color: #ff0000;
+  font-family: 'TDAText', monospace;
+  font-size: 13px;
+  z-index: 10;
+  max-width: 200px;
+  white-space: normal;
+  word-wrap: break-word;
+}
+
 .register-form {
   display: flex;
   flex-direction: column;
   align-items: center;
   margin-top: 0;
+  padding-top: 15px;
 }
 
 .register-form__field {
@@ -133,16 +167,4 @@
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-.register-form__error {
-  width: 164px;
-  padding: 8px;
-  margin-bottom: 13px;
-  background-color: rgba(255, 0, 0, 0.1);
-  border: 1px solid #ff0000;
-  color: #ff0000;
-  font-family: 'TDAText', monospace;
-  font-size: 13px;
-  text-align: center;
 } 

@@ -66,7 +66,7 @@ const port = process.env.PORT || 3001;
 
 // Настройка CORS
 app.use(cors({
-  origin: 'http://localhost:3000', // URL вашего фронтенда
+  origin: 'http://localhost:3000', // URL фронтенда
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -112,7 +112,7 @@ app.use((err, req, res, next) => {
   });
 
   res.status(500).json({
-    message: 'Что-то пошло не так!',
+    message: 'Something went wrong',
     error: process.env.NODE_ENV === 'development' ? err.message : undefined,
     details: process.env.NODE_ENV === 'development' ? err.detail : undefined
   });

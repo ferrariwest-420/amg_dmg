@@ -38,6 +38,7 @@ const PosterPage = () => {
                 src={`http://localhost:3001${posterUrl}`}
                 alt={`Poster ${posterNumber}`} 
                 className="poster-page__image"
+                draggable="false"
               />
             )}
           </div>

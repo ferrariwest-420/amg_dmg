@@ -6,7 +6,7 @@ const LoadingScreen = () => {
   return (
     <div className="loading-screen">
       <div className="loading-screen__content">
-        <img src={loading1} alt="Loading..." className="loading-screen__animation" />
+        <img src={loading1} alt="Loading..." className="loading-screen__animation" draggable="false" />
         <div className="loading-screen__brain-icon"></div>
       </div>
     </div>

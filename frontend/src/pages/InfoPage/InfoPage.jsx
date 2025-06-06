@@ -3,12 +3,15 @@ import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../../context/AuthContext';
 import OSWindow from '../../components/layout/OSWindow/OSWindow';
 import WindowTab from '../../components/layout/WindowTab/WindowTab';
+import ValidationMessage from '../../components/ui/ValidationMessage/ValidationMessage';
+import loading1 from '../../assets/loading1.gif';
 import './InfoPage.css';
 
 const InfoPage = () => {
   const navigate = useNavigate();
-  const { user, updateProfile } = useAuth();
+  const { user, updateProfile, loading: authLoading } = useAuth();
   const [error, setError] = useState('');
+  const [validationError, setValidationError] = useState('');
   const [formData, setFormData] = useState({
     username: '',
     email: '',
@@ -17,11 +20,15 @@ const InfoPage = () => {
     oldPassword: '',
     newPassword: ''
   });
+  const [fieldErrors, setFieldErrors] = useState({
+    country: '',
+    fullAddress: ''
+  });
 
   const [passwordError, setPasswordError] = useState('');
 
   useEffect(() => {
-    if (user) {
+    if (!authLoading && user) {
       setFormData({
         username: user.username || '',
         email: user.email || '',
@@ -31,19 +38,30 @@ const InfoPage = () => {
         newPassword: ''
       });
     }
-  }, [user]);
+  }, [user, authLoading]);
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
+  const validateForm = () => {
+    const newFieldErrors = {
+      country: '',
+      fullAddress: ''
+    };
+    let isValid = true;
 
-    // Reset password error when either password field changes
-    if (name === 'oldPassword' || name === 'newPassword') {
-      setPasswordError('');
+    if (!formData.country || formData.country.trim() === '') {
+      newFieldErrors.country = 'Country is required';
+      isValid = false;
     }
+
+    if (!formData.fullAddress || formData.fullAddress.trim() === '') {
+      newFieldErrors.fullAddress = 'Full address is required';
+      isValid = false;
+    }
+
+    setFieldErrors(newFieldErrors);
+    if (!isValid) {
+      setValidationError(Object.values(newFieldErrors).find(error => error) || '');
+    }
+    return isValid;
   };
 
   const validatePasswords = () => {
@@ -58,11 +76,34 @@ const InfoPage = () => {
     return true;
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+    setValidationError('');
+    setError('');
+    setFieldErrors(prev => ({
+      ...prev,
+      [name]: ''
+    }));
+
+    if (name === 'oldPassword' || name === 'newPassword') {
+      setPasswordError('');
+    }
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setValidationError('');
     setPasswordError('');
-    
+
+    if (!validateForm()) {
+      return;
+    }
+
     // Validate passwords if either field is filled
     if ((formData.oldPassword || formData.newPassword) && !validatePasswords()) {
       return;
@@ -120,17 +161,26 @@ const InfoPage = () => {
     navigate('/profile');
   };
 
+  if (authLoading) {
+    return (
+      <OSWindow>
+        <WindowTab title="Info">
+          <div className="info-loading">
+            <img src={loading1} alt="Loading..." draggable="false" />
+            <div className="info-loading-text">Loading...</div>
+          </div>
+        </WindowTab>
+      </OSWindow>
+    );
+  }
+
   return (
     <OSWindow>
       <WindowTab title="Info" onClose={handleClose}>
-        <form onSubmit={handleSubmit} className="register-form">
-            {error && (
-            <div className="register-form__error">
-                {error}
-              </div>
-            )}
-            
-          <div className="register-form__field">
+        <div className="info-container">
+          <ValidationMessage message={error || passwordError || validationError} />
+          <form onSubmit={handleSubmit} className="register-form" noValidate>
+            <div className="register-form__field">
               <label htmlFor="username">Username</label>
               <input
                 type="text"
@@ -138,11 +188,11 @@ const InfoPage = () => {
                 name="username"
                 value={formData.username}
                 disabled
-              className="register-form__input--disabled"
+                className="register-form__input--disabled"
               />
             </div>
 
-          <div className="register-form__field">
+            <div className="register-form__field">
               <label htmlFor="email">E-mail</label>
               <input
                 type="email"
@@ -150,11 +200,11 @@ const InfoPage = () => {
                 name="email"
                 value={formData.email}
                 disabled
-              className="register-form__input--disabled"
+                className="register-form__input--disabled"
               />
             </div>
 
-          <div className="register-form__field">
+            <div className="register-form__field">
               <label htmlFor="country">Country</label>
               <input
                 type="text"
@@ -162,11 +212,11 @@ const InfoPage = () => {
                 name="country"
                 value={formData.country}
                 onChange={handleChange}
-                required
+                className={fieldErrors.country ? 'error' : ''}
               />
             </div>
 
-          <div className="register-form__field">
+            <div className="register-form__field">
               <label htmlFor="fullAddress">Full Address</label>
               <input
                 type="text"
@@ -174,44 +224,37 @@ const InfoPage = () => {
                 name="fullAddress"
                 value={formData.fullAddress}
                 onChange={handleChange}
-                required
+                className={fieldErrors.fullAddress ? 'error' : ''}
               />
             </div>
 
-          <div className="register-form__field">
-            <label htmlFor="oldPassword">Old Password</label>
-            <input
-              type="password"
-              id="oldPassword"
-              name="oldPassword"
-              value={formData.oldPassword}
-              onChange={handleChange}
-              placeholder="Enter old password"
-            />
-          </div>
-
-          <div className="register-form__field">
-            <label htmlFor="newPassword">New Password</label>
-            <input
-              type="password"
-              id="newPassword"
-              name="newPassword"
-              value={formData.newPassword}
-              onChange={handleChange}
-              placeholder="Enter new password"
-            />
-          </div>
-
-          {passwordError && (
-            <div className="register-form__error">
-              {passwordError}
+            <div className="register-form__field">
+              <label htmlFor="oldPassword">Old Password</label>
+              <input
+                type="password"
+                id="oldPassword"
+                name="oldPassword"
+                value={formData.oldPassword}
+                onChange={handleChange}
+              />
             </div>
-          )}
 
-          <button type="submit" className="register-form__submit">
-              Save Info
+            <div className="register-form__field">
+              <label htmlFor="newPassword">New Password</label>
+              <input
+                type="password"
+                id="newPassword"
+                name="newPassword"
+                value={formData.newPassword}
+                onChange={handleChange}
+              />
+            </div>
+
+            <button type="submit" className="register-form__submit">
+              Save Changes
             </button>
           </form>
+        </div>
       </WindowTab>
     </OSWindow>
   );

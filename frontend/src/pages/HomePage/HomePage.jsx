@@ -18,24 +18,25 @@ const HomePage = () => {
           src={pixelLogo} 
           alt="Doll Life" 
           className={`home-page__logo ${isAuthenticated ? 'home-page__logo--faded' : ''}`}
+          draggable="false"
         />
         
         {isAuthenticated && (
           <div className="home-page__icons">
             <FolderIcon
-              icon={<img src={catalogIcon} alt="Catalog" />}
+              icon={<img src={catalogIcon} alt="Catalog" draggable="false" />}
               label="Catalog"
               to="/catalog"
               style={{ left: '33px', top: '30px' }}
             />
             <FolderIcon
-              icon={<img src={galleryIcon} alt="Gallery" />}
+              icon={<img src={galleryIcon} alt="Gallery" draggable="false" />}
               label="Gallery"
               to="/gallery"
               style={{ left: '151px', top: '30px' }}
             />
             <FolderIcon
-              icon={<img src={profileIcon} alt="Profile" />}
+              icon={<img src={profileIcon} alt="Profile" draggable="false" />}
               label="Profile"
               to="/profile"
               style={{ left: '269px', top: '30px' }}

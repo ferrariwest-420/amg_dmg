@@ -1,7 +1,7 @@
-import { query } from '../db/index.js';
+import { query } from '../db/database.js';
 import asyncHandler from 'express-async-handler';
 
-// Получить все товары
+// Получение всех товаров
 export const getProducts = asyncHandler(async (req, res) => {
   const result = await query(
     'SELECT p.*, ARRAY_AGG(ps.size) as sizes FROM products p ' +
@@ -11,7 +11,7 @@ export const getProducts = asyncHandler(async (req, res) => {
   res.json(result.rows);
 });
 
-// Получить товар по ID
+// Получение товара по ID
 export const getProductById = asyncHandler(async (req, res) => {
   const { id } = req.params;
   const result = await query(
@@ -23,7 +23,7 @@ export const getProductById = asyncHandler(async (req, res) => {
   );
   
   if (result.rows.length === 0) {
-    res.status(404).json({ message: 'Товар не найден' });
+    res.status(404).json({ message: 'Product not found' });
     return;
   }
   
